@@ -1,0 +1,87 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  Internal Error (classFileParser.cpp:3470), pid=1744, tid=8856
+#  Error: ShouldNotReachHere()
+#
+# JRE version: 7.0-b147
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (21.0-b17 mixed mode windows-amd64 compressed oops)
+# Failed to write core dump. Minidumps are not enabled by default on client versions of Windows
+#
+# If you would like to submit a bug report, please visit:
+#   http://bugreport.sun.com/bugreport/crash.jsp
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x000000000024c800):  JavaThread "Unknown thread" [_thread_in_vm, id=8856, stack(0x00000000025e0000,0x00000000026e0000)]
+
+Stack: [0x00000000025e0000,0x00000000026e0000]
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+
+Other Threads:
+
+=>0x000000000024c800 (exited) JavaThread "Unknown thread" [_thread_in_vm, id=8856, stack(0x00000000025e0000,0x00000000026e0000)]
+
+VM state:not at safepoint (not fully initialized)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Dynamic libraries:
+0x000000013f870000 - 0x000000013f8a3000 	C:\Program Files\Java\jre7\bin\javaw.exe
+0x0000000076e80000 - 0x0000000077029000 	C:\windows\SYSTEM32\ntdll.dll
+0x0000000076c60000 - 0x0000000076d7f000 	C:\windows\system32\kernel32.dll
+0x000007fefcec0000 - 0x000007fefcf2b000 	C:\windows\system32\KERNELBASE.dll
+0x000007fefda50000 - 0x000007fefdb2b000 	C:\windows\system32\ADVAPI32.dll
+0x000007fefd9b0000 - 0x000007fefda4f000 	C:\windows\system32\msvcrt.dll
+0x000007fefed40000 - 0x000007fefed5f000 	C:\windows\SYSTEM32\sechost.dll
+0x000007fefed60000 - 0x000007fefee8d000 	C:\windows\system32\RPCRT4.dll
+0x0000000076d80000 - 0x0000000076e7a000 	C:\windows\system32\USER32.dll
+0x000007fefee90000 - 0x000007fefeef7000 	C:\windows\system32\GDI32.dll
+0x000007fefd9a0000 - 0x000007fefd9ae000 	C:\windows\system32\LPK.dll
+0x000007fefec70000 - 0x000007fefed39000 	C:\windows\system32\USP10.dll
+0x000007fefb190000 - 0x000007fefb384000 	C:\windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.17514_none_fa396087175ac9ac\COMCTL32.dll
+0x000007fefd400000 - 0x000007fefd471000 	C:\windows\system32\SHLWAPI.dll
+0x000007fefdd50000 - 0x000007fefdd7e000 	C:\windows\system32\IMM32.DLL
+0x000007fefeb10000 - 0x000007fefec19000 	C:\windows\system32\MSCTF.dll
+0x000000005c500000 - 0x000000005c5d1000 	C:\Program Files\Java\jre7\bin\msvcr100.dll
+0x0000000053f40000 - 0x000000005460e000 	C:\Program Files\Java\jre7\bin\server\jvm.dll
+0x000007fef4850000 - 0x000007fef4859000 	C:\windows\system32\WSOCK32.dll
+0x000007fefec20000 - 0x000007fefec6d000 	C:\windows\system32\WS2_32.dll
+0x000007fefd5e0000 - 0x000007fefd5e8000 	C:\windows\system32\NSI.dll
+0x000007fefbc90000 - 0x000007fefbccb000 	C:\windows\system32\WINMM.dll
+0x0000000077050000 - 0x0000000077057000 	C:\windows\system32\PSAPI.DLL
+0x0000000074a90000 - 0x0000000074a9f000 	C:\Program Files\Java\jre7\bin\verify.dll
+0x000000006a4b0000 - 0x000000006a4d8000 	C:\Program Files\Java\jre7\bin\java.dll
+0x000000006a530000 - 0x000000006a545000 	C:\Program Files\Java\jre7\bin\zip.dll
+
+VM Arguments:
+jvm_args: -Dfile.encoding=MS949 -Xbootclasspath:C:\Android\sdk\platforms\android-19\android.jar 
+java_command: caramel.macc.andysync.core.scan.ConcurrentFileScanner
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+JAVA_HOME=C:\Program Files\Java\jdk1.7.0
+PATH=C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\windows\system32;C:\windows;C:\windows\System32\Wbem;C:\windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\ThinkPad\Bluetooth Software\;C:\Program Files\ThinkPad\Bluetooth Software\syswow64;C:\Program Files\Java\jre6\bin;C:\Program Files\Broadcom\WHL\;C:\Program Files\Broadcom\WHL\syswow64;C:\Program Files\Broadcom\WHL\SysWow64\;C:\Program Files\Broadcom\WHL\SysWow64\syswow64;C:\Program Files (x86)\Windows Live\Shared;C:\Program Files\Java\jdk1.7.0\bin;c:\ant\bin
+USERNAME=Caramel Macchiato
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 42 Stepping 7, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 7 , 64 bit Build 7601 Service Pack 1
+
+CPU:total 4 (2 cores per cpu, 2 threads per core) family 6 model 42 stepping 7, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, popcnt, ht
+
+Memory: 4k page, physical 16657620k(11537868k free), swap 33313380k(27547032k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (21.0-b17) for windows-amd64 JRE (1.7.0-b147), built on Jun 27 2011 02:19:45 by "java_re" with unknown MS VC++:1600
+
+time: Mon Nov 11 18:14:15 2013
+elapsed time: 0 seconds
+

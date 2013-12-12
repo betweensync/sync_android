@@ -1,0 +1,249 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#0099cc"
+    tools:context=".AndySyncActivity" >
+
+    <!--
+         The primary full-screen view. This can be replaced with whatever view
+         is needed to present your content, e.g. VideoView, SurfaceView,
+         TextureView, etc.    -->
+
+     <TextView
+        android:id="@+id/fullscreen_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:keepScreenOn="true"
+        android:text=""
+        android:textColor="#33b5e5"
+        android:textSize="50sp"
+        android:textStyle="bold" />
+ 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true" >
+
+        <LinearLayout
+            android:id="@+id/fullscreen_content_controls"
+            style="?buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:background="@color/black_overlay"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent" >
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Directory: " />
+
+                <EditText
+                    android:id="@+id/txtDir"
+                    android:layout_width="139dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:text="/sdcard" >
+
+                    <requestFocus />
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <CheckBox
+			        android:id="@+id/chbKeyword"
+			        android:layout_width="100dp"
+			        android:layout_height="wrap_content"
+			        android:text="Search: " />
+
+                <EditText
+                    android:id="@+id/txtKeyword"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:text="" >
+
+                    <requestFocus />
+                </EditText>
+            </LinearLayout>            
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tvThreadCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thread Count: " />
+
+                <EditText
+                    android:id="@+id/txtThreadCount"
+                    android:layout_width="139dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:text="1" />
+
+                <Button
+                    android:id="@+id/btnScan"
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="116dp"
+                    android:layout_height="31dp"
+                    android:onClick="onScanClick"
+                    android:text="Scan" />
+            </LinearLayout>
+
+            <ScrollView
+                android:id="@+id/scrollView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbarDefaultDelayBeforeFade="500000" 
+                android:scrollbarAlwaysDrawVerticalTrack="true" >
+
+                <EditText
+                    android:id="@+id/txtScanConsole"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:background="@color/white_overlay"
+                    android:clickable="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:height="120dp"
+                    android:textSize="10sp"
+                    android:textColor="#000000"
+                    android:inputType="textMultiLine" />
+            </ScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tvElapsed"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Elapsed Time(ms): " />
+
+                <EditText
+                    android:id="@+id/txtElapsed"
+                    android:layout_width="139dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/tvScanned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Scanned Files: " />
+
+                <EditText
+                    android:id="@+id/txtScanned"
+                    android:layout_width="139dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:text="" />
+            </LinearLayout>
+
+
+                        
+            <Button
+                android:id="@+id/btnObserve"
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="onObserveClick"
+                android:text="Observe" />
+
+            <ScrollView
+                android:id="@+id/scrollView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" 
+                android:scrollbarDefaultDelayBeforeFade="500000" 
+                android:scrollbarAlwaysDrawVerticalTrack="true">
+
+                <EditText
+                    android:id="@+id/txtObserveConsole"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:background="@color/white_overlay"
+                    android:clickable="false"
+                    android:ems="10"
+                    android:focusable="false"
+                    android:height="120dp"
+					android:textSize="10sp"
+                    android:textColor="#000000"
+                    android:inputType="textMultiLine" />
+            </ScrollView>
+            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+
+                <TextView
+                    android:id="@+id/tvScanned"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Searched Files: " /> 
+                    
+                <ScrollView
+	                android:id="@+id/scrollView4"
+	                android:layout_width="match_parent"
+	                android:layout_height="wrap_content"
+	                android:scrollbarDefaultDelayBeforeFade="500000" 
+	                android:scrollbarAlwaysDrawVerticalTrack="true" >
+
+	                <EditText
+	                    android:id="@+id/txtSearchedConsole"
+	                    android:layout_width="match_parent"
+	                    android:layout_height="120dp"
+	                    android:background="@color/white_overlay"
+	                    android:clickable="false"
+	                    android:ems="10"
+	                    android:focusable="false"
+	                    android:height="120dp"
+	                    android:textSize="10sp"
+	                    android:textColor="#000000"
+	                    android:inputType="textMultiLine" />
+           		</ScrollView>
+            </LinearLayout>
+                
+
+            
+        </LinearLayout>
+    </FrameLayout>
+
+</FrameLayout>
