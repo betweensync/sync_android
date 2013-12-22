@@ -1,23 +1,26 @@
 package caramel.macc.andysync.observer;
 
-import android.os.FileObserver;
 
 public class FileChangedEvent {
-	public static final int CREATE = FileObserver.CREATE;
-	public static final int DELETE = FileObserver.DELETE;
-	public static final int DELETE_SELF = FileObserver.DELETE_SELF;
-	public static final int MODIFY = FileObserver.MODIFY;
-	public static final int MOVED_FROM = FileObserver.MOVED_FROM;
-	public static final int MOVED_TO = FileObserver.MOVED_TO;
-	public static final int MOVE_SELF = FileObserver.MOVE_SELF;
-
-	public static final int ACCESS = FileObserver.ACCESS;
-	public static final int ATTRIB = FileObserver.ATTRIB;
-	public static final int CLOSE_NOWRITE = FileObserver.CLOSE_NOWRITE;
-	public static final int CLOSE_WRITE = FileObserver.CLOSE_WRITE;
-	public static final int OPEN = FileObserver.OPEN;
+	public static final int CREATE 		= 256; 	// FileObserver.CREATE;
+	public static final int DELETE 		= 512; 	// FileObserver.DELETE;
+	public static final int DELETE_SELF = 1024; // FileObserver.DELETE_SELF;
+	public static final int MODIFY 		= 2; 	// FileObserver.MODIFY;
+	public static final int MOVED_FROM 	= 64;	// FileObserver.MOVED_FROM;
+	public static final int MOVED_TO 	= 128; 	// FileObserver.MOVED_TO;
+	public static final int MOVE_SELF 	= 2048; // FileObserver.MOVE_SELF;
 	
-	private int type;
+	public static final int CRATE_DIR 	= 1073742080;
+	public static final int DELETE_DIR 	= 1073742336;
+	
+	public static final int UNKNOWN 	= -1;
+//	public static final int ACCESS = FileObserver.ACCESS;
+//	public static final int ATTRIB = FileObserver.ATTRIB;
+//	public static final int CLOSE_NOWRITE = FileObserver.CLOSE_NOWRITE;
+//	public static final int CLOSE_WRITE = FileObserver.CLOSE_WRITE;
+//	public static final int OPEN = FileObserver.OPEN;
+	
+	private int type	= UNKNOWN;
 	private String path;
 	private String typeStr;
 	
@@ -28,7 +31,7 @@ public class FileChangedEvent {
 		this.convertTypeToString();
 	}
 	
-	public int getType() {
+	public int getType(){
 		return type;
 	}
 	public void setType(int type) {
@@ -68,20 +71,14 @@ public class FileChangedEvent {
 		case MOVE_SELF:
 			typeStr = "MOVE_SELF";
 			break;
-		case ACCESS:
-			typeStr = "ACCESS";
+		case CRATE_DIR:
+			typeStr = "CRATE_DIR";
 			break;
-		case ATTRIB:
-			typeStr = "ATTRIB";
+		case DELETE_DIR:
+			typeStr = "DELETE_DIR";
 			break;
-		case CLOSE_NOWRITE:
-			typeStr = "CLOSE_NOWRITE";
-			break;
-		case CLOSE_WRITE:
-			typeStr = "CLOSE_WRITE";
-			break;
-		case OPEN:
-			typeStr = "OPEN";
+		default:
+			typeStr = "UNKNOWN";
 			break;
 		}
 	}

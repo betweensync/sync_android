@@ -1,5 +1,7 @@
 package caramel.macc.andysync;
 
+import java.io.File;
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.os.Build;
@@ -239,6 +241,7 @@ public class AndySyncActivity extends Activity implements ScanEventListener, Fil
 //		}
 		
 		this.dirObserver = new DirectoryObserver(this.dir);
+		//this.dirObserver.setHandler(this.getApplicationContext().g)
 		this.dirObserver.addFileChangedEventListener(this);
 		this.dirObserver.startWatching();
 		
@@ -325,6 +328,15 @@ public class AndySyncActivity extends Activity implements ScanEventListener, Fil
 	@Override
 	public void onFileChanged(FileChangedEvent fcevent) {
 		ConsoleLogger.log(this, this.txtObserveConsole, fcevent.toString());
+		
+		if (fcevent.getType() == FileChangedEvent.CREATE){
+			File f = new File (fcevent.getPath());
+			if(f.isDirectory()){
+				DirectoryObserver dobserver = new DirectoryObserver(fcevent.getPath());
+				dobserver.addFileChangedEventListener(this);
+				dobserver.startWatching();
+			}
+		}
 	}
 
 

@@ -34,29 +34,39 @@ public class FileObserverTest extends Thread{
 			f.createNewFile();			
 			Thread.sleep(interval);
 			
+			Log.i("observe test", "1. renameTo [" + path + "]");
+			// create a file..
+			f = new File(path);
+			path = path.replace("test-file", "test-file-rename");
+			f.renameTo(new File(path));
+			Thread.sleep(interval);			
+			
 			Log.i("observe test", "2. delete [" + path + "]");
 			// delete a file..
 			f.delete();			
-			Thread.sleep(interval);
-			
+			Thread.sleep(interval);			
 			
 			// dir create..
 			path = this.baseDir + File.separator + "sub-dir1";
 			f = new File(path);
 			f.mkdirs();
 			//f.createNewFile();			
-			Log.i("observe test", "3. mkdirs [" + path + "]");			
+			Log.i("observe test", "3. mkdirs [" + path + "]");	
 			Thread.sleep(interval);
 			
-			this.list();
+			//this.list();
 			
 			// sub file crate under new dir..
 			path += File.separator +  "test-file-sub";
 			f = new File(path);
-			f.mkdirs();
+			//f.mkdirs();
 			f.createNewFile();
 			Log.i("observe test", "4. createNewFile [" + path + "]");			
 			Thread.sleep(interval);
+			
+			path = path.replace("sub-dir1/", "");
+			Log.i("observe test", "4.1 move to [" + path + "]");		
+			f.renameTo(new File(path));
 			
 			// delete a sub file..
 			f.delete();
@@ -120,10 +130,11 @@ public class FileObserverTest extends Thread{
 
 	private void list(){
 		String[] list = new File(this.baseDir).list();
+		
+		if (list == null)
+			return;
+		
 		for(String name : list){
-			if (name.equals("sub-dir1")){
-				new File(this.baseDir + File.separator + "sub-dir1").delete();
-			}
 			Log.i("observe test", " - " + name);
 		}
 		
