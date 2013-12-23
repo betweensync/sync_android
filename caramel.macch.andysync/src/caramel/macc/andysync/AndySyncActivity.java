@@ -1,6 +1,6 @@
 package caramel.macc.andysync;
 
-import java.io.File;
+import java.util.Map;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -17,6 +17,10 @@ import caramel.macc.andysync.core.FileScannerFactory;
 import caramel.macc.andysync.observer.DirectoryObserver;
 import caramel.macc.andysync.observer.FileChangedEvent;
 import caramel.macc.andysync.observer.FileChangedEventListener;
+import caramel.macc.andysync.sync.SyncEvent;
+import caramel.macc.andysync.sync.SyncEventListener;
+import caramel.macc.andysync.sync.SyncManager;
+import caramel.macc.andysync.sync.SyncManagerFactory;
 import caramel.macc.andysync.util.ConsoleLogger;
 import caramel.macc.andysync.util.StringUtil;
 import caramel.macc.andysync.util.SystemUiHider;
@@ -27,7 +31,7 @@ import caramel.macc.andysync.util.SystemUiHider;
  * 
  * @see SystemUiHider
  */
-public class AndySyncActivity extends Activity implements ScanEventListener, FileChangedEventListener{
+public class AndySyncActivity extends Activity implements ScanEventListener, FileChangedEventListener, SyncEventListener{
 	/**
 	 * Whether or not the system UI should be auto-hidden after
 	 * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -229,21 +233,32 @@ public class AndySyncActivity extends Activity implements ScanEventListener, Fil
 		this.txtSearchedConsole.setText("");
 	}
 	
+	private SyncManager syncManager;
+	
 	public void onObserveClick(View view){
+		this.dir = this.txtDir.getText().toString().trim();
+		
 		Log.i("andysync", "Observe button clicked..");
-		this.txtObserveConsole.setText("* [" + this.dir + "] observation starts...");
+//		this.txtObserveConsole.setText("* [" + this.dir + "] observation starts...");
+//		
+////		// test..
+////		File root = new File("/");
+////		String[] dirs = root.list();
+////		for(String d:dirs){
+////			ConsoleLogger.log(this, txtObserveConsole, "- " + d);
+////		}
+//		
+//		this.dirObserver = new DirectoryObserver(this.dir);
+//		//this.dirObserver.setHandler(this.getApplicationContext().g)
+//		this.dirObserver.addFileChangedEventListener(this);
+//		this.dirObserver.startWatching();
 		
-//		// test..
-//		File root = new File("/");
-//		String[] dirs = root.list();
-//		for(String d:dirs){
-//			ConsoleLogger.log(this, txtObserveConsole, "- " + d);
-//		}
+		// SyncManager based..
+		this.syncManager = SyncManagerFactory.factory.getAndySyncManager();
+		this.syncManager.setScanEventListener(this);
+		this.syncManager.setSyncEventListener(this);
 		
-		this.dirObserver = new DirectoryObserver(this.dir);
-		//this.dirObserver.setHandler(this.getApplicationContext().g)
-		this.dirObserver.addFileChangedEventListener(this);
-		this.dirObserver.startWatching();
+		this.syncManager.start(this.dir);
 		
 		// start test..		
 		new FileObserverTest(this.dir).start();
@@ -310,7 +325,7 @@ public class AndySyncActivity extends Activity implements ScanEventListener, Fil
 			// list all..
 			//this.listScannedFiles();
 			
-			this.fileScanner.stop();
+			//this.fileScanner.stop();
 			
 			break;
 		}
@@ -320,22 +335,42 @@ public class AndySyncActivity extends Activity implements ScanEventListener, Fil
 	private void listScannedFiles(){
 		ConsoleLogger.log(this, this.txtScanConsole, "------- scanned files -------" );
 		
-		for(String path:this.fileScanner.getSFileMap().keySet()){
+		for(String path : this.fileScanner.getSFileMap().keySet()){
 			ConsoleLogger.log(this, this.txtScanConsole, "  + " + path );
 		}
 	}
 	
 	@Override
 	public void onFileChanged(FileChangedEvent fcevent) {
-		ConsoleLogger.log(this, this.txtObserveConsole, fcevent.toString());
+//		ConsoleLogger.log(this, this.txtObserveConsole, fcevent.toString());
+//		
+//		if (fcevent.getType() == FileChangedEvent.DIR_CRATE){
+//			DirectoryObserver dobserver = new DirectoryObserver(fcevent.getPath());
+//			dobserver.addFileChangedEventListener(this);
+//			dobserver.startWatching();
+//			
+//			Log.d("startWatching", "startWatching - " + fcevent.getPath());
+//		}
+	}
+
+	@Override
+	public void onSyncEvent(SyncEvent syncEvent) {
+		ConsoleLogger.log(this, this.txtObserveConsole, syncEvent.toString());
 		
-		if (fcevent.getType() == FileChangedEvent.CREATE){
-			File f = new File (fcevent.getPath());
-			if(f.isDirectory()){
-				DirectoryObserver dobserver = new DirectoryObserver(fcevent.getPath());
-				dobserver.addFileChangedEventListener(this);
-				dobserver.startWatching();
-			}
+		// do something along with event types..
+		switch(syncEvent.getType()){
+		case SyncEvent.DIR_CREATED:
+			Map<String, SFile> subFiles = syncEvent.getSubFiles();
+			ConsoleLogger.log(this, this.txtObserveConsole, subFiles.keySet().toArray(new String[0]).toString());
+			break;
+		case SyncEvent.DIR_DELETED:
+			break;
+		case SyncEvent.FILE_CREATED:
+			break;
+		case SyncEvent.FILE_DELETED:
+			break;
+		case SyncEvent.FILE_MODIFIED:
+			break;
 		}
 	}
 

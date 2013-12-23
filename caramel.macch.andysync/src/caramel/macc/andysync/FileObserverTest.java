@@ -1,7 +1,6 @@
 package caramel.macc.andysync;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import android.util.Log;
@@ -18,12 +17,12 @@ public class FileObserverTest extends Thread{
 		Log.i("observe test", "dir observation starts..[" + this.baseDir + "]");
 		
 		try {
-			File f = new File(this.baseDir + File.separator + "sub-dir1");
+			File f = new File(this.baseDir);
 			if (f.exists()){
-				this.delete(f);
+				this.deleteSub(f);
 			}
-			
-			this.list();
+			Log.d("observe test", "---------------------");
+			list(this.baseDir);
 			
 			String path = this.baseDir + File.separator + "test-file";
 			
@@ -34,7 +33,7 @@ public class FileObserverTest extends Thread{
 			f.createNewFile();			
 			Thread.sleep(interval);
 			
-			Log.i("observe test", "1. renameTo [" + path + "]");
+			Log.i("observe test", "1.1 renameTo [" + path + "]");
 			// create a file..
 			f = new File(path);
 			path = path.replace("test-file", "test-file-rename");
@@ -43,6 +42,7 @@ public class FileObserverTest extends Thread{
 			
 			Log.i("observe test", "2. delete [" + path + "]");
 			// delete a file..
+			f = new File(path);
 			f.delete();			
 			Thread.sleep(interval);			
 			
@@ -50,11 +50,8 @@ public class FileObserverTest extends Thread{
 			path = this.baseDir + File.separator + "sub-dir1";
 			f = new File(path);
 			f.mkdirs();
-			//f.createNewFile();			
 			Log.i("observe test", "3. mkdirs [" + path + "]");	
 			Thread.sleep(interval);
-			
-			//this.list();
 			
 			// sub file crate under new dir..
 			path += File.separator +  "test-file-sub";
@@ -67,49 +64,53 @@ public class FileObserverTest extends Thread{
 			path = path.replace("sub-dir1/", "");
 			Log.i("observe test", "4.1 move to [" + path + "]");		
 			f.renameTo(new File(path));
+			Thread.sleep(interval);
 			
 			// delete a sub file..
+			f = new File(path);
 			f.delete();
 			Log.i("observe test", "5. delete [" + path + "]");
 			Thread.sleep(interval);
 			
 			// create sub sub dir ..
-			path = this.baseDir + File.separator + "sub-dir1" +File.separator + "sub-dir2" + File.separator + "sub-dir3";
+			path = this.baseDir + File.separator + "sub-dir2" +File.separator + "sub-sub-dir1";
 			f = new File(path);
 			f.mkdirs();
 			//f.createNewFile();			
 			Log.i("observe test", "6. mkdirs [" + path + "]");			
+			
+			list(this.baseDir);
+			
 			Thread.sleep(interval);
 			
-			list();
+			
+			// rename parent dir..
+			path = this.baseDir + File.separator + "sub-dir2";
+			f = new File(path);
+			path = this.baseDir + File.separator + "sub-dir2-rename";
+			f.renameTo(new File(path));
+			Log.i("observe test", "6.1 rename dir [" + path + "]");			
+			
+			list(this.baseDir);
+			
+			Thread.sleep(interval);
 			
 			// file crate under new dir..
-			path += File.separator + "test-file-sub-sub-sub";
+			path += File.separator + "file-sub-sub";
 			f = new File(path);
 			f.createNewFile();
 			Log.i("observe test", "7. createNewFile [" + path + "]");
 			Thread.sleep(interval);
 			
 			// delete for test dir..
-			path = f.getParent();
+			path = this.baseDir + File.separator + "sub-dir2-rename";
 			f = new File(path);
-			delete(f);
-			Log.i("observe test", "8. delete [" + path + "]");
+			deleteSub(f);
+			f.delete();
+			Log.i("observe test", "8. delete dir [" + path + "]");
 			Thread.sleep(interval);
 				
-			list();
-			
-			path = this.baseDir + File.separator + "sub-dir1" +File.separator + "sub-dir2" + File.separator + "sub-dir3";
-			f = new File(path);
-			f.mkdirs();
-			f = new File(path + File.separator + "sub-file");
-			f.createNewFile();
-			Log.i("observe test", "10. create [" + path + "]");
-			Thread.sleep(interval);
-			
-			f = new File(this.baseDir + File.separator + "sub-dir1");
-			delete(f);
-			Log.i("observe test", "11. delete [" + path + "]");
+			list(this.baseDir);
 			
 			Log.i("observe test", "dir observation ends..[" + baseDir + "]");
 			
@@ -119,23 +120,29 @@ public class FileObserverTest extends Thread{
 		
 	}
 
-	private void delete(File f) throws IOException {
+	private void deleteSub(File f) throws IOException {
 		if (f.isDirectory()) {
-			for (File c : f.listFiles())
-				delete(c);
+			for (File c : f.listFiles()){
+				if(c.isDirectory())
+					deleteSub(c);
+				
+				c.delete();
+			}
 		}
-		if (!f.delete())
-			throw new FileNotFoundException("Failed to delete file: " + f);
+		
 	}
 
-	private void list(){
-		String[] list = new File(this.baseDir).list();
+	private static void list(String dir){
+		String[] list = new File(dir).list();
 		
 		if (list == null)
 			return;
 		
 		for(String name : list){
-			Log.i("observe test", " - " + name);
+			Log.d("LIST", " - " + name);
+			if (new File(name).isDirectory()){
+				list(name);
+			}
 		}
 		
 	}

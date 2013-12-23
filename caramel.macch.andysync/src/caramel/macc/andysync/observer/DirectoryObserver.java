@@ -34,40 +34,19 @@ public class DirectoryObserver extends FileObserver{
 		
 		Log.d(TAG, "**["+ (event) + "] " + fcevent.toString());
 		
-		this.fceListener.onFileChanged(fcevent);
-		
-//		if (this.handler != null){
-//			this.handler.post(new EventDispatcher(event, path));
-//		}
+		if (fcevent.getType() != FileChangedEvent.UNKNOWN){
+			this.fceListener.onFileChanged(fcevent);
+		}
 	}
 	
 	public void addFileChangedEventListener(FileChangedEventListener fceListener){
 		this.fceListener = fceListener;
 	}
-	
-//	public void setHandler(Handler handler){
-//		this.handler = handler;
-//	}
 
 	public void close(){
 		super.finalize();
 	}
 	
-//	class EventDispatcher extends Thread{
-//		private int event;
-//		private String path;
-//		
-//		public EventDispatcher(int event, String path){
-//			this.event = event;
-//			this.path = path;
-//		}
-//		public void run(){
-//			FileChangedEvent fcevent = new FileChangedEvent(event & FileObserver.ALL_EVENTS, rootPath + path);
-//			
-//			Log.d(TAG, "["+ (event & FileObserver.ALL_EVENTS) + "] " + fcevent.toString());
-//			
-//			fceListener.onFileChanged(fcevent);
-//		}
-//	}
+	
 
 }

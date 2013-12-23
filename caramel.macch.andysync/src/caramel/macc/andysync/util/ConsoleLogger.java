@@ -27,7 +27,7 @@ public class ConsoleLogger {
             		String msg = message + "\r\n" + old;
             		
             		console.setText(msg);
-            		Log.d(console.getId() + "", msg);
+            		//Log.d(console.getId() + " ", msg);
             	}
             }
         });		
@@ -42,10 +42,10 @@ public class ConsoleLogger {
             	synchronized (console) {
             		if (baseMessage == null)
             			baseMessage = console.getText().toString();  
-            		String sanningMsg = "  [" +  count + "] files scaned..\r\n" + baseMessage;
+            		String scanMessage = "  [" +  count + "] files scaned..\r\n" + baseMessage;
             		
-            		console.setText( sanningMsg );
-            		Log.d(console.getId() + "", sanningMsg + ".");
+            		console.setText( scanMessage );
+            		//Log.d(console.getId() + " ", scanMessage + ".");
             	}
             }
         });		

@@ -1,5 +1,7 @@
 package caramel.macc.andysync.observer;
 
+import java.io.File;
+
 
 public class FileChangedEvent {
 	public static final int CREATE 		= 256; 	// FileObserver.CREATE;
@@ -10,8 +12,10 @@ public class FileChangedEvent {
 	public static final int MOVED_TO 	= 128; 	// FileObserver.MOVED_TO;
 	public static final int MOVE_SELF 	= 2048; // FileObserver.MOVE_SELF;
 	
-	public static final int CRATE_DIR 	= 1073742080;
-	public static final int DELETE_DIR 	= 1073742336;
+	public static final int DIR_CRATE 		= 1073742080;
+	public static final int DIR_DELETE 		= 1073742336;
+	public static final int DIR_MOVED_FROM 	= 1073741888;
+	public static final int DIR_MOVED_TO 	= 1073741952;
 	
 	public static final int UNKNOWN 	= -1;
 //	public static final int ACCESS = FileObserver.ACCESS;
@@ -25,7 +29,21 @@ public class FileChangedEvent {
 	private String typeStr;
 	
 	public FileChangedEvent(int type, String path){
-		this.type = type;
+		File f = new File(path);
+		
+//		if(f.isDirectory()){
+//			switch(type){
+//			case CREATE:
+//				this.type = DIR_CRATE;
+//				break;
+//			case DELETE:
+//				this.type = DIR_DELETE;
+//				break;
+//			}
+//		} else{
+			this.type = type;
+//		}
+		
 		this.path = path;
 		
 		this.convertTypeToString();
@@ -71,11 +89,17 @@ public class FileChangedEvent {
 		case MOVE_SELF:
 			typeStr = "MOVE_SELF";
 			break;
-		case CRATE_DIR:
-			typeStr = "CRATE_DIR";
+		case DIR_CRATE:
+			typeStr = "DIR_CRATE";
 			break;
-		case DELETE_DIR:
-			typeStr = "DELETE_DIR";
+		case DIR_DELETE:
+			typeStr = "DIR_DELETE";
+			break;
+		case DIR_MOVED_FROM:
+			typeStr = "DIR_MOVED_FROM";
+			break;
+		case DIR_MOVED_TO:
+			typeStr = "DIR_MOVED_TO";
 			break;
 		default:
 			typeStr = "UNKNOWN";
